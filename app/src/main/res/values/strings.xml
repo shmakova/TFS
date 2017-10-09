@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">TFS</string>
+    <string name="share_button">Share</string>
+    <string name="text_to_share">Text to share</string>
+    <string name="open_activity_button">Open activity</string>
+    <string name="first_activity_label">FirstActivity</string>
+    <string name="second_activity_label">SecondActivity</string>
+    <string name="send_button">Send</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Cancel</string>
 </resources>
