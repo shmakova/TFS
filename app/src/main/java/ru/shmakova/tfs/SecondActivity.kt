@@ -1,36 +1,31 @@
 package ru.shmakova.tfs
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_second.*
 
-class MainActivity : AppCompatActivity(), WorkerFragment.OnResultListener {
+class SecondActivity : AppCompatActivity(), SecondWorkerFragment.OnResultListener {
 
-    private var workerFragment: WorkerFragment? = null
+    private var workerFragment: SecondWorkerFragment? = null
     private var listAdapter: ListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        openActivityButton.setOnClickListener {
-            startActivity(Intent(this, SecondActivity::class.java))
-        }
+        setContentView(R.layout.activity_second)
 
         with(recyclerView) {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@MainActivity)
+            layoutManager = LinearLayoutManager(this@SecondActivity)
             listAdapter = ListAdapter()
             adapter = listAdapter
         }
 
-        workerFragment = supportFragmentManager.findFragmentByTag(WorkerFragment.TAG) as? WorkerFragment
+        workerFragment = supportFragmentManager.findFragmentByTag(SecondWorkerFragment.TAG) as? SecondWorkerFragment
 
         if (workerFragment == null && savedInstanceState == null) {
-            workerFragment = WorkerFragment()
-            supportFragmentManager.beginTransaction().add(workerFragment, WorkerFragment.TAG).commit()
+            workerFragment = SecondWorkerFragment()
+            supportFragmentManager.beginTransaction().add(workerFragment, SecondWorkerFragment.TAG).commit()
         }
     }
 
