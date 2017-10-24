@@ -2,18 +2,18 @@ package ru.shmakova.tfs
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import java.util.*
-import java.util.concurrent.Executors
 
 class WorkerFragment : Fragment() {
 
     private var listener: OnResultListener? = null
     private var result: List<String> = emptyList()
-    private val executorService = Executors.newSingleThreadExecutor()
+    private val handler = Handler()
+    private var handlerThread: WorkerThread? = null
 
     interface OnResultListener {
         fun onResult(list: List<String>)
@@ -30,12 +30,15 @@ class WorkerFragment : Fragment() {
                 listener!!.onResult(result)
             }
         } else {
-            executorService.execute({
+            handlerThread = WorkerThread("WorkerThread")
+            handlerThread!!.postTask(Runnable {
                 Thread.sleep(5000)
-                result = Arrays.asList("val1", "val2", "val3")
+                result = listOf("1 val1", "1 val2", "1 val3")
 
-                if (listener != null) {
-                    listener!!.onResult(result)
+                handler.post {
+                    if (listener != null) {
+                        listener!!.onResult(result)
+                    }
                 }
             })
         }
@@ -53,6 +56,18 @@ class WorkerFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
+        listener = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
+    }
+
+    fun cancel() {
+        if (handlerThread != null) {
+            handlerThread!!.cancel()
+        }
         listener = null
     }
 

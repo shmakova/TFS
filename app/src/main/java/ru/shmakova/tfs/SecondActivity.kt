@@ -29,25 +29,12 @@ class SecondActivity : AppCompatActivity(), SecondWorkerFragment.OnResultListene
         }
     }
 
-    override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
-        remove()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (isFinishing) {
-            remove()
-        }
-    }
-
-    private fun remove() {
-        supportFragmentManager.beginTransaction().remove(workerFragment).commit();
+    override fun onStop() {
+        super.onStop()
+        workerFragment!!.cancel()
     }
 
     override fun onResult(list: List<String>) {
-        runOnUiThread {
-            listAdapter!!.setItems(list)
-        }
+        listAdapter!!.setItems(list)
     }
 }
